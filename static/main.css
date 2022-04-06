@@ -1,0 +1,9 @@
+html, body {
+    min-height: 100vh;
+}
+
+.homePlaceholder {
+    background-color: bisque;
+    color: darkorchid;
+    text-align: center;
+}

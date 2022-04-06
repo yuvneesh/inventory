@@ -1,5 +1,6 @@
+from ast import Add
 from flask import Flask, render_template
-
+from forms import AddForm
 
 app = Flask(__name__)
 
@@ -15,6 +16,11 @@ def home():
 @app.route('/home2')
 def home2():
     return render_template("home2.html")  
+
+@app.route('/add')
+def add():
+    form = AddForm()
+    return render_template("addForm.html", form=form)  
     
 if __name__ == "__main__":
     app.run()

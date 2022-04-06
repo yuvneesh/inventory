@@ -8,3 +8,11 @@ html, body {
     text-align: center;
     min-height: 100vh;
 }
+
+.MainContainer {
+    background-color: antiquewhite;
+}
+
+.rows {
+    background-color: bisque;
+}

@@ -1,6 +1,12 @@
 from flask import Flask, render_template
 
+
 app = Flask(__name__)
+
+#Adding secret key
+f = open("secretKey.secret","r")
+f2 = f.read()
+app.config['SECRET_KEY'] = f2
 
 @app.route('/')
 def home():

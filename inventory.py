@@ -15,7 +15,8 @@ def home():
 
 @app.route('/home2')
 def home2():
-    return render_template("home2.html")  
+    form = AddForm()
+    return render_template("home2.html", form=form)  
 
 @app.route('/add')
 def add():

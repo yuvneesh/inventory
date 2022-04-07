@@ -23,4 +23,4 @@ def add():
     return render_template("addForm.html", form=form)  
     
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)

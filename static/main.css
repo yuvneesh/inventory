@@ -35,3 +35,17 @@ html, body {
     padding: 5px;
     border-radius: 5px;
 }
+
+.formContainer {
+    background: #ffffff;
+    padding: 10px 20px;
+    border: 1px solid #dddddd;
+    border-radius: 3px;
+    margin: 20px;
+    width: 50%;
+    
+}
+
+.form-group {
+    padding-bottom: 20px;
+}

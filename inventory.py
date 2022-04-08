@@ -26,6 +26,13 @@ def receive():
 def withdraw():
     form = WithdrawForm()
     return render_template("withdrawForm.html", form=form) 
-    
+
+@app.route('/formtemplatetest')
+def formtemplatetest():
+    form = ReceiveForm()
+    fields=[form.Product,form.LotNo,form.RecdDate,form.RecdInit]
+    buttons=[form.submit]
+    return render_template("ReceiveFormFromTemplate.html",form=form, fields=fields, buttons=buttons)
+
 if __name__ == "__main__":
     app.run(debug=True)

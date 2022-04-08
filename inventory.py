@@ -20,12 +20,16 @@ def home2():
 @app.route('/receive')
 def receive():
     form = ReceiveForm()
-    return render_template("ReceiveForm.html", form=form)  
+    fields=[form.Product,form.LotNo,form.RecdDate,form.RecdInit]
+    buttons=[form.submit]
+    return render_template("ReceiveForm.html", form=form, fields=fields, buttons=buttons)  
 
 @app.route('/withdraw')
 def withdraw():
     form = WithdrawForm()
-    return render_template("withdrawForm.html", form=form) 
+    fields=[form.Product,form.AvailableItem,form.WithdrawlDate,form.WithdrawlTech]
+    buttons=[form.Withdraw,form.Certificate]
+    return render_template("withdrawForm.html", form=form, fields=fields, buttons=buttons) 
 
 @app.route('/formtemplatetest')
 def formtemplatetest():

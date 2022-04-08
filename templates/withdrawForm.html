@@ -1,32 +1,5 @@
-{% extends "layout.html" %}
-{% block content %}
+{% extends "formTemplate.html" %}
 
-    <div class="formContainer ">
-        <form method="POST" action="">
-            {{ form.hidden_tag() }}
-            <fieldset class="form-group">
-                <legend class="border-bottom">Withdraw</legend>
-                <div class="form-group">
-                    {{ form.Product.label(class="form-control-label")}}
-                    {{ form.Product(class="form-control form-control-lg")}}
-                </div>
-                <div class="form-group">
-                    {{ form.AvailableItem.label(class="form-control-label")}}
-                    {{ form.AvailableItem(class="form-control form-control-lg")}}
-                </div>
-                <div class="form-group">
-                    {{ form.WithdrawlDate.label(class="form-control-label")}}
-                    {{ form.WithdrawlDate(class="form-control form-control-lg")}}
-                </div>
-                <div class="form-group">
-                    {{ form.WithdrawlTech.label(class="form-control-label")}}
-                    {{ form.WithdrawlTech(class="form-control form-control-lg")}}
-                </div>
-            </fieldset>
-            <div class="form-group">
-                {{ form.Withdraw(class="btn btn-primary") }}
-                {{ form.Certificate(class="btn btn-primary") }}
-            </div>
-        </form>
-    </div>
+{% block legend %}
+    Withdraw form
 {% endblock %}

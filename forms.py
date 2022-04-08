@@ -6,7 +6,7 @@ from wtforms import SelectField
 from wtforms import DateField
 from wtforms import SubmitField
 
-class AddForm(FlaskForm):
+class ReceiveForm(FlaskForm):
     Product = SelectField(label='Product',choices=['','TAN3','TBN6'])
     LotNo = StringField('Lot No')
     RecdDate = DateField('Received Date')

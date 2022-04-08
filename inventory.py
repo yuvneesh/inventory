@@ -1,6 +1,6 @@
 from ast import Add
 from flask import Flask, render_template
-from forms import AddForm
+from forms import AddForm, WithdrawForm
 
 app = Flask(__name__)
 
@@ -22,6 +22,11 @@ def home2():
 def add():
     form = AddForm()
     return render_template("addForm.html", form=form)  
+
+@app.route('/withdraw')
+def withdraw():
+    form = WithdrawForm()
+    return render_template("withdrawForm.html", form=form) 
     
 if __name__ == "__main__":
     app.run(debug=True)

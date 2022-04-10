@@ -17,21 +17,21 @@ def home():
 def home2():
     return render_template("home2.html")  
 
-@app.route('/receive')
+@app.route('/receive',methods=['GET','POST'])
 def receive():
     form = ReceiveForm()
     fields=[form.Product,form.LotNo,form.RecdDate,form.RecdInit]
     buttons=[form.submit]
     return render_template("ReceiveForm.html", form=form, fields=fields, buttons=buttons)  
 
-@app.route('/withdraw')
+@app.route('/withdraw',methods=['GET','POST'])
 def withdraw():
     form = WithdrawForm()
     fields=[form.Product,form.AvailableItem,form.WithdrawlDate,form.WithdrawlTech]
     buttons=[form.Withdraw,form.Certificate]
     return render_template("withdrawForm.html", form=form, fields=fields, buttons=buttons) 
 
-@app.route('/AddMaterials')
+@app.route('/AddMaterials',methods=['GET','POST'])
 def addmaterials():
     form = AddMaterials()
     fields=[form.Product,form.CatalogNumber]

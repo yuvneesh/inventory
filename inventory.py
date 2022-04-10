@@ -1,6 +1,6 @@
 from ast import Add
 from flask import Flask, render_template
-from forms import ReceiveForm, WithdrawForm
+from forms import ReceiveForm, WithdrawForm, AddMaterials
 
 app = Flask(__name__)
 
@@ -31,6 +31,12 @@ def withdraw():
     buttons=[form.Withdraw,form.Certificate]
     return render_template("withdrawForm.html", form=form, fields=fields, buttons=buttons) 
 
+@app.route('/AddMaterials')
+def addmaterials():
+    form = AddMaterials()
+    fields=[form.Product,form.CatalogNumber]
+    buttons=[form.add]
+    return render_template("AddMaterials.html",form=form,fields=fields,buttons=buttons)
 
 if __name__ == "__main__":
     app.run(debug=True)

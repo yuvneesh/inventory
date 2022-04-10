@@ -20,3 +20,8 @@ class WithdrawForm(FlaskForm):
     WithdrawlTech = StringField('Technician Initials')
     Withdraw = SubmitField('Withdraw')
     Certificate = SubmitField('Get Certificate')
+
+class AddMaterials(FlaskForm):
+    Product = StringField("Product")
+    CatalogNumber = StringField("Catalog Number")
+    add = SubmitField('Add')

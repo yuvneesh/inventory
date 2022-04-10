@@ -11,7 +11,7 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
 </head>
 <body>
-    <div class="container">
+    <div class="container mx-auto" style="width: 1200px;">
         <div class="formContainer ">
             <form method="POST" action="">
                 {{ form.hidden_tag()}}
@@ -24,10 +24,13 @@
                     </div>    
                     {% endfor %}
                 </fieldset>
+
+                <div class="form-group d-flex justify-content-between">
                 {% for button in buttons %}
-                    <div class="form-group">
+                    
                         {{ button(class="btn btn-primary") }}
-                    </div>
+                    
                 {% endfor %}
+                </div>
         </div>  
 </body>

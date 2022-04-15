@@ -44,13 +44,16 @@ def addmaterials():
     form = AddMaterials()
     fields=[form.Product,form.CatalogNumber]
     buttons=[form.add]
-    return render_template("AddMaterials.html",form=form,fields=fields,buttons=buttons)
 
     if form.validate_on_submit():
         Material = MaterialsList(Product=form.Product,CatalogNumber=form.CatalogNumber)
         db.session.add(Material)
         db.session.commit()
         print('Entry added to database')
+        
+    return render_template("AddMaterials.html",form=form,fields=fields,buttons=buttons)
+
+
         
 
 if __name__ == "__main__":

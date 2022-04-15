@@ -1,6 +1,6 @@
-from ast import Add
 from flask import Flask, render_template
 from forms import ReceiveForm, WithdrawForm, AddMaterials
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 
@@ -8,6 +8,14 @@ app = Flask(__name__)
 f = open("secretKey.secret","r")
 f2 = f.read()
 app.config['SECRET_KEY'] = f2
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
+
+db = SQLAlchemy(app)
+
+class MaterialsList(db):
+    Product = db.Column(db.Integer)
+    CatalogNumber = db.Column(db.String, nullable=False)
 
 @app.route('/')
 def home():

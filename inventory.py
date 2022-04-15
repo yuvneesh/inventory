@@ -13,8 +13,8 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 
 db = SQLAlchemy(app)
 
-class MaterialsList(db):
-    Product = db.Column(db.Integer)
+class MaterialsList(db.Model):
+    Product = db.Column(db.String, primary_key = True)
     CatalogNumber = db.Column(db.String, nullable=False)
 
 @app.route('/')

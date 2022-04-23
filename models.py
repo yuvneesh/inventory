@@ -1,6 +1,48 @@
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import ForeignKey
 
 db = SQLAlchemy()
-class MaterialsList(db.Model):
-    Product = db.Column(db.String, primary_key = True)
+
+class TestMethods(db.Model):
+    MethodID = db.Column(db.String, primary_key=True)
+    MethodName = db.Column(db.String, nullable=False)
+
+class Test_n_Prodcuts(db.Model):
+    LinkID = db.Column(db.Integer,primary_key=True)
+    Method = db.Column(ForeignKey('testMethods.id'))
+    Product = db.Column(ForeignKey('products.id'))
+
+class Vendors(db.Model):
+    VendorID = db.Column(db.String, primary_key=True)
+    VendorName = db.Column(db.String, nullable=False)
+    products = db.relationship('Products', backref="vendor", lazy=True)
+
+class Products(db.Model):
+    ProductID = db.Column(db.String, primary_key = True)
+    Vendor = db.Column(db.String, ForeignKey('vendors.id'))
     CatalogNumber = db.Column(db.String, nullable=False)
+
+class Certificates(db.Model):
+    CertificateID = db.Column(db.String, primary_key=True)
+    Product = db.Column(db.String,ForeignKey('products.id'))
+    CertificationDate = db.Column(db.Date)
+    ExpiryDate = db.Column(db.Date)
+
+class Log(db.Model):
+    SerialNumber = db.Column(db.Integer, primary_key=True)
+    Product = db.Column(ForeignKey('products.id'))
+    LotNumber = db.Column(db.String,nullable=False)
+    
+    DateReceived = db.Column(db.Date,nullable=False)
+    ReceivedBy = db.Column(db.String,nullable=False)
+    Certificate = db.Column(db.Boolean,nullable=False)
+
+    DateWithdrawn = db.Column(db.Date,nullable=False)
+    WithdrawnBy = db.Column(db.String,nullable=False)
+
+    DateDisposed = db.Column(db.Date,nullable=False)
+    DisposedBy = db.Column(db.String,nullable=False)
+
+class Inventory(db.Model):
+    Product = db.Column(ForeignKey('products.id'),primary_key=True)
+    Stock = db.Column(db.Integer)

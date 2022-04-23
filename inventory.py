@@ -12,6 +12,9 @@ app.config['SECRET_KEY'] = f2
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 db.init_app(app)
 
+with app.app_context():
+    db.create_all()
+
 @app.route('/')
 def home():
     return render_template("home.html")
@@ -41,7 +44,7 @@ def addProducts():
     buttons=[form.add]
 
     if form.validate_on_submit():
-        product = Products(Product=form.Product.data,CatalogNumber=form.CatalogNumber.data)
+        product = Products(ProductID=form.Product.data,CatalogNumber=form.CatalogNumber.data)
         db.session.add(product)
         db.session.commit()
 

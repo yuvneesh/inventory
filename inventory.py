@@ -2,7 +2,7 @@ from flask import Flask, render_template
 from forms import ReceiveForm, WithdrawForm, AddMaterials
 from flask_sqlalchemy import SQLAlchemy
 
-from models import MaterialsList
+
 app = Flask(__name__)
 
 #Adding secret key
@@ -13,7 +13,7 @@ app.config['SECRET_KEY'] = f2
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 
 db = SQLAlchemy(app)
-
+from models import MaterialsList
 
 @app.route('/')
 def home():

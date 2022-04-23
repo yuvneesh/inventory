@@ -1,5 +1,5 @@
 from flask import Flask, render_template
-from forms import ReceiveForm, WithdrawForm, AddMaterials
+from forms import ReceiveForm, WithdrawForm, AddProducts
 from models import *
 
 app = Flask(__name__)
@@ -34,19 +34,18 @@ def withdraw():
     buttons=[form.Withdraw,form.Certificate]
     return render_template("withdrawForm.html", form=form, fields=fields, buttons=buttons) 
 
-@app.route('/AddMaterials',methods=['GET','POST'])
-def addmaterials():
-    form = AddMaterials()
+@app.route('/AddProducts',methods=['GET','POST'])
+def addProducts():
+    form = AddProducts()
     fields=[form.Product,form.CatalogNumber]
     buttons=[form.add]
 
     if form.validate_on_submit():
-        Material = MaterialsList(Product=form.Product.data,CatalogNumber=form.CatalogNumber.data)
-        db.session.add(Material)
+        product = Products(Product=form.Product.data,CatalogNumber=form.CatalogNumber.data)
+        db.session.add(product)
         db.session.commit()
-        print('Entry added to database')
 
-    return render_template("AddMaterials.html",form=form,fields=fields,buttons=buttons)
+    return render_template("AddProducts.html",form=form,fields=fields,buttons=buttons)
 
 
         

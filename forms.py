@@ -22,7 +22,7 @@ class WithdrawForm(FlaskForm):
     Withdraw = SubmitField('Withdraw')
     Certificate = SubmitField('Get Certificate')
 
-class AddMaterials(FlaskForm):
+class AddProducts(FlaskForm):
     Product = StringField("Product",validators=[DataRequired()])
     CatalogNumber = StringField("Catalog Number",validators=[DataRequired()])
     add = SubmitField('Add')

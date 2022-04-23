@@ -2,6 +2,7 @@ from flask import Flask, render_template
 from forms import ReceiveForm, WithdrawForm, AddMaterials
 from flask_sqlalchemy import SQLAlchemy
 
+from models import MaterialsList
 app = Flask(__name__)
 
 #Adding secret key

@@ -1,7 +1,6 @@
 from flask import Flask, render_template
 from forms import ReceiveForm, WithdrawForm, AddMaterials
-from flask_sqlalchemy import SQLAlchemy
-
+from models import db,MaterialsList
 
 app = Flask(__name__)
 
@@ -11,9 +10,7 @@ f2 = f.read()
 app.config['SECRET_KEY'] = f2
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
-
-db = SQLAlchemy(app)
-from models import MaterialsList
+db.init_app(app)
 
 @app.route('/')
 def home():

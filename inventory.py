@@ -1,6 +1,6 @@
 from flask import Flask, render_template
 from forms import ReceiveForm, WithdrawForm, AddMaterials
-from models import db,MaterialsList
+from models import *
 
 app = Flask(__name__)
 

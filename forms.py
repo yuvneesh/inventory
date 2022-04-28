@@ -29,6 +29,6 @@ class AddProducts(FlaskForm):
     add = SubmitField('Add')
 
 class AddVendors(FlaskForm):
-    VendorID = StringField("Vendor ID",validators=[DataRequired()])
+    #VendorID = StringField("Vendor ID",validators=[DataRequired()])
     VendorName = StringField("Vendor Name",validators=[DataRequired()])
     add = SubmitField('Add')

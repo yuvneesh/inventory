@@ -13,7 +13,7 @@ class Link_test_products(db.Model):
     Product = db.Column(ForeignKey('products.ProductID'))
 
 class Vendors(db.Model):
-    VendorID = db.Column(db.String, primary_key=True)
+    VendorID = db.Column(db.Integer, primary_key=True,autoincrement=True)
     VendorName = db.Column(db.String, nullable=False)
     products = db.relationship('Products', backref="vendor", lazy=True)
 

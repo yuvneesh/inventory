@@ -2,6 +2,8 @@ from flask import Flask, render_template
 from forms import AddVendors, ReceiveForm, WithdrawForm, AddProducts
 from models import *
 
+from sqlalchemy.orm import sessionmaker
+
 app = Flask(__name__)
 
 #Adding secret key
@@ -64,7 +66,13 @@ def addVendors():
 
     return render_template("AddVendors.html",form=form,fields=fields,buttons=buttons)
 
-        
+@app.route('/productList')
+def productList():
+    products = []
+    results = db.session.query(Products).all()
+    for result in results:
+        products.append(result.ProductID)
+    return render_template("productList.html", products=products)        
 
 if __name__ == "__main__":
     app.run(debug=True)

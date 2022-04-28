@@ -25,4 +25,10 @@ class WithdrawForm(FlaskForm):
 class AddProducts(FlaskForm):
     Product = StringField("Product",validators=[DataRequired()])
     CatalogNumber = StringField("Catalog Number",validators=[DataRequired()])
+    VendorID = StringField("VendorID",validators=[DataRequired()])
+    add = SubmitField('Add')
+
+class AddVendors(FlaskForm):
+    VendorID = StringField("Vendor ID",validators=[DataRequired()])
+    VendorName = StringField("Vendor Name",validators=[DataRequired()])
     add = SubmitField('Add')

@@ -15,11 +15,11 @@ class Link_test_products(db.Model):
 class Vendors(db.Model):
     VendorID = db.Column(db.String, primary_key=True)
     VendorName = db.Column(db.String, nullable=False)
-    #products = db.relationship('Products', backref="vendor", lazy=True)
+    products = db.relationship('Products', backref="vendor", lazy=True)
 
 class Products(db.Model):
     ProductID = db.Column(db.String, primary_key = True)
-    #Vendor = db.Column(db.String, ForeignKey('vendors.VendorID'))
+    Vendor = db.Column(db.String, ForeignKey('vendors.VendorID'))
     CatalogNumber = db.Column(db.String, nullable=False)
 
 class Certificates(db.Model):

@@ -13,7 +13,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 db.init_app(app)
 
 with app.app_context():
-    db.drop_all() 
+    #db.drop_all() 
     db.create_all()
 
 @app.route('/')
@@ -54,12 +54,10 @@ def addProducts():
 @app.route('/AddVendors',methods=['GET','POST'])
 def addVendors():
     form = AddVendors()
-    #fields=[form.VendorID,form.VendorName]
     fields=[form.VendorName]
     buttons=[form.add]
 
     if form.validate_on_submit():
-        #vendor = Vendors(VendorID=form.VendorID.data, VendorName=form.VendorName.data)
         vendor = Vendors(VendorName=form.VendorName.data)
         db.session.add(vendor)
         db.session.commit()

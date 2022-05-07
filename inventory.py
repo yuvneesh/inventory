@@ -28,7 +28,12 @@ def home2():
 
 @app.route('/receive',methods=['GET','POST'])
 def receive():
+    products = []
+    results = db.session.query(Products).all()
+    for result in results:
+        products.append(result.ProductID)
     form = ReceiveForm()
+    form.Product.choices = products
     fields=[form.Product,form.LotNo,form.RecdDate,form.RecdInit]
     buttons=[form.submit]
     return render_template("ReceiveForm.html", form=form, fields=fields, buttons=buttons)  

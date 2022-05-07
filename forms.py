@@ -8,7 +8,7 @@ from wtforms import SubmitField
 from wtforms.validators import DataRequired
 
 class ReceiveForm(FlaskForm):
-    Product = SelectField(label='Product',choices=['','TAN3','TBN6'])
+    Product = SelectField(label='Product',coerce=int)
     LotNo = StringField('Lot No')
     RecdDate = DateField('Received Date')
     RecdInit = StringField('Received By')

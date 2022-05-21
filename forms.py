@@ -12,6 +12,7 @@ class ReceiveForm(FlaskForm):
     LotNo = StringField('Lot No')
     RecdDate = DateField('Received Date')
     RecdInit = StringField('Received By')
+    Certificate = SelectField(label='Certificate',choices=['','Yes','No'])
     submit = SubmitField('Submit')
     
 class WithdrawForm(FlaskForm):

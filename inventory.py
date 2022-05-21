@@ -1,4 +1,5 @@
 from flask import Flask, render_template
+import sqlalchemy
 from forms import AddVendors, ReceiveForm, WithdrawForm, AddProducts
 from models import *
 
@@ -15,7 +16,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 db.init_app(app)
 
 with app.app_context():
-    #db.drop_all() 
+    db.drop_all() 
     db.create_all()
 
 @app.route('/')
@@ -34,8 +35,18 @@ def receive():
         products.append(result.ProductID)
     form = ReceiveForm()
     form.Product.choices = products
-    fields=[form.Product,form.LotNo,form.RecdDate,form.RecdInit]
+    fields=[form.Product,form.LotNo,form.RecdDate,form.RecdInit,form.Certificate]
     buttons=[form.submit]
+
+    if form.validate_on_submit():
+        log_entry = Log(Product=form.Product.data,
+        LotNumber=form.LotNo.data,
+        DateReceived=form.RecdDate.data,
+        ReceivedBy=form.RecdInit.data,
+        Certificate=form.Certificate.data)
+        db.session.add(log_entry)
+        db.session.commit()
+
     return render_template("ReceiveForm.html", form=form, fields=fields, buttons=buttons)  
 
 @app.route('/withdraw',methods=['GET','POST'])

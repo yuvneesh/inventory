@@ -29,19 +29,19 @@ class Certificates(db.Model):
     ExpiryDate = db.Column(db.Date)
 
 class Log(db.Model):
-    SerialNumber = db.Column(db.Integer, primary_key=True)
+    SerialNumber = db.Column(db.Integer, primary_key=True,autoincrement=True)
     Product = db.Column(ForeignKey('products.ProductID'))
     LotNumber = db.Column(db.String,nullable=False)
     
-    DateReceived = db.Column(db.Date,nullable=False)
-    ReceivedBy = db.Column(db.String,nullable=False)
-    Certificate = db.Column(db.Boolean,nullable=False)
+    ReceivedBy = db.Column(db.String)
+    Certificate = db.Column(db.Boolean)
+    DateReceived = db.Column(db.Date)
 
-    DateWithdrawn = db.Column(db.Date,nullable=False)
-    WithdrawnBy = db.Column(db.String,nullable=False)
+    DateWithdrawn = db.Column(db.Date)
+    WithdrawnBy = db.Column(db.String)
 
-    DateDisposed = db.Column(db.Date,nullable=False)
-    DisposedBy = db.Column(db.String,nullable=False)
+    DateDisposed = db.Column(db.Date)
+    DisposedBy = db.Column(db.String)
 
 class Inventory(db.Model):
     Product = db.Column(ForeignKey('products.ProductID'),primary_key=True)

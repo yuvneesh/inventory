@@ -18,7 +18,8 @@ class Vendors(db.Model):
     products = db.relationship('Products', backref="vendor", lazy=True)
 
 class Products(db.Model):
-    ProductID = db.Column(db.String, primary_key = True)
+    ProductID = db.Column(db.Integer, primary_key=True,autoincrement=True)
+    ProductName = db.Column(db.String,nullable=False)
     Vendor = db.Column(db.String, ForeignKey('vendors.VendorID'))
     CatalogNumber = db.Column(db.String, nullable=False)
 

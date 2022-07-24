@@ -29,10 +29,7 @@ def home2():
 
 @app.route('/receive',methods=['GET','POST'])
 def receive():
-    products = []
-    results = db.session.query(Products).all()
-    for result in results:
-        products.append(result.ProductID)
+    products = [(product.ProductID,product.ProductName) for product in Products.query.all()]
     form = ReceiveForm()
     form.Product.choices = products
     fields=[form.Product,form.LotNo,form.RecdDate,form.RecdInit,form.Certificate]
@@ -59,11 +56,11 @@ def withdraw():
 @app.route('/AddProducts',methods=['GET','POST'])
 def addProducts():
     form = AddProducts()
-    fields=[form.Product,form.CatalogNumber,form.VendorID]
+    fields=[form.ProductName,form.CatalogNumber,form.VendorID]
     buttons=[form.add]
 
     if form.validate_on_submit():
-        product = Products(ProductID=form.Product.data,CatalogNumber=form.CatalogNumber.data,Vendor=form.VendorID.data)
+        product = Products(ProductName=form.ProductName.data,CatalogNumber=form.CatalogNumber.data,Vendor=form.VendorID.data)
         db.session.add(product)
         db.session.commit()
 

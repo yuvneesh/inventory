@@ -8,7 +8,7 @@ from wtforms import SubmitField
 from wtforms.validators import DataRequired
 
 class ReceiveForm(FlaskForm):
-    Product = SelectField(label='Product',coerce=int)
+    Product = SelectField(label='Product',choices=[],coerce=int,validate_choice=True)
     LotNo = StringField('Lot No')
     RecdDate = DateField('Received Date')
     RecdInit = StringField('Received By')
@@ -24,7 +24,7 @@ class WithdrawForm(FlaskForm):
     Certificate = SubmitField('Get Certificate')
 
 class AddProducts(FlaskForm):
-    Product = StringField("Product",validators=[DataRequired()])
+    ProductName = StringField("Product",validators=[DataRequired()])
     CatalogNumber = StringField("Catalog Number",validators=[DataRequired()])
     VendorID = StringField("VendorID",validators=[DataRequired()])
     add = SubmitField('Add')

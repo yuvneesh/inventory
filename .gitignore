@@ -134,3 +134,4 @@ inventory/
 #Secrets
 *.secret
 
+.idea/

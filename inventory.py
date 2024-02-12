@@ -16,16 +16,13 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 db.init_app(app)
 
 with app.app_context():
-    db.drop_all() 
+    db.drop_all()
     db.create_all()
 
 @app.route('/')
 def home():
     return render_template("home.html")
-  
-@app.route('/home2')
-def home2():
-    return render_template("home2.html")  
+
 
 @app.route('/receive',methods=['GET','POST'])
 def receive():
@@ -44,14 +41,14 @@ def receive():
         db.session.add(log_entry)
         db.session.commit()
 
-    return render_template("ReceiveForm.html", form=form, fields=fields, buttons=buttons)  
+    return render_template("ReceiveForm.html", form=form, fields=fields, buttons=buttons)
 
 @app.route('/withdraw',methods=['GET','POST'])
 def withdraw():
     form = WithdrawForm()
     fields=[form.Product,form.AvailableItem,form.WithdrawlDate,form.WithdrawlTech]
     buttons=[form.Withdraw,form.Certificate]
-    return render_template("withdrawForm.html", form=form, fields=fields, buttons=buttons) 
+    return render_template("withdrawForm.html", form=form, fields=fields, buttons=buttons)
 
 @app.route('/AddProducts',methods=['GET','POST'])
 def addProducts():
@@ -85,7 +82,7 @@ def productList():
     results = db.session.query(Products).all()
     for result in results:
         products.append(result.ProductID)
-    return render_template("productList.html", products=products)        
+    return render_template("productList.html", products=products)
 
 if __name__ == "__main__":
     app.run(debug=True)

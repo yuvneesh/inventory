@@ -1,9 +1,10 @@
-from flask import Flask, render_template
-import sqlalchemy
-from forms import AddVendors, ReceiveForm, WithdrawForm, AddProducts
-from models import *
+import flask
+from flask import Flask, jsonify, render_template, flash, redirect, url_for
+import sqlite3
+import pandas as pd
 
-from sqlalchemy.orm import sessionmaker
+from db_tools import Dataman
+from forms import AddVendors, ReceiveForm, WithdrawForm, AddProducts, DisposeForm
 
 app = Flask(__name__)
 
@@ -12,12 +13,8 @@ f = open("secretKey.secret","r")
 f2 = f.read()
 app.config['SECRET_KEY'] = f2
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
-db.init_app(app)
-
-with app.app_context():
-    db.drop_all()
-    db.create_all()
+# Instantiating Dataman
+dataman = Dataman("site.db")
 
 @app.route('/')
 def home():
@@ -26,29 +23,63 @@ def home():
 
 @app.route('/receive',methods=['GET','POST'])
 def receive():
-    products = [(product.ProductID,product.ProductName) for product in Products.query.all()]
+
+    # Create the form
     form = ReceiveForm()
-    form.Product.choices = products
-    fields=[form.Product,form.LotNo,form.RecdDate,form.RecdInit,form.Certificate]
+    fields=[form.ProductName,form.LotNumber,form.ReceivedBy,form.DateReceived,form.Certificate]
     buttons=[form.submit]
+    products = dataman.get_products()
+    form.ProductName.choices = products
+    
+    if flask.request.method == "POST":
+        if form.validate_on_submit():
+            item_number = dataman.receive_product(form.data)
+            flash(f"Success! {form.ProductName.data} have been added. The item number for the new item is: {item_number}", 'success')
+            return redirect(url_for("receive"))
 
-    if form.validate_on_submit():
-        log_entry = Log(Product=form.Product.data,
-        LotNumber=form.LotNo.data,
-        DateReceived=form.RecdDate.data,
-        ReceivedBy=form.RecdInit.data,
-        Certificate=form.Certificate.data)
-        db.session.add(log_entry)
-        db.session.commit()
+    return render_template("ReceiveProduct.html", form=form, fields=fields, buttons=buttons)
 
-    return render_template("ReceiveForm.html", form=form, fields=fields, buttons=buttons)
+@app.route('/get-item-numbers/<product>',methods=['GET'])
+def get_item_numbers(product):
+    serial_numbers = dataman.get_items_of_product(product)
+    return jsonify({"SerialNumber": serial_numbers})
 
 @app.route('/withdraw',methods=['GET','POST'])
 def withdraw():
     form = WithdrawForm()
-    fields=[form.Product,form.AvailableItem,form.WithdrawlDate,form.WithdrawlTech]
+    fields=[form.ProductName,form.SerialNumber,form.DateWithdrawn,form.WithdrawnBy]
     buttons=[form.Withdraw,form.Certificate]
-    return render_template("withdrawForm.html", form=form, fields=fields, buttons=buttons)
+    form.ProductName.choices = dataman.get_products()
+    form.SerialNumber.choices = []
+
+    if flask.request.method == "POST":
+        if form.validate_on_submit():
+            if dataman.withdraw_product(form.data):
+                flash(f"Succesfully withdrawn {form.data['ProductName']}-{form.data['SerialNumber']}", 'success')
+                return redirect(url_for("withdraw"))
+            else:
+                flash(f"Failed to withdraw {form.data['ProductName']}-{form.data['SerialNumber']}", 'failure')
+
+        
+    return render_template("WithdrawProduct.html", form=form, fields=fields, buttons=buttons)
+
+@app.route('/dispose',methods=['GET','POST'])
+def dispose():
+    form = DisposeForm()
+    fields=[form.ProductName,form.SerialNumber,form.DateDisposed,form.DisposedBy]
+    buttons=[form.Dispose]
+    form.ProductName.choices = dataman.get_products()
+
+    if flask.request.method == "POST":
+        if form.validate_on_submit():
+            if dataman.withdraw_product(form.data):
+                flash(f"Succesfully withdrawn {form.data['ProductName']}-{form.data['SerialNumber']}", 'success')
+                return redirect(url_for("withdraw"))
+            else:
+                flash(f"Failed to withdraw {form.data['ProductName']}-{form.data['SerialNumber']}", 'failure')
+
+        
+    return render_template("DisposeProduct.html", form=form, fields=fields, buttons=buttons)
 
 @app.route('/AddProducts',methods=['GET','POST'])
 def addProducts():
@@ -56,12 +87,10 @@ def addProducts():
     fields=[form.ProductName,form.CatalogNumber,form.VendorID]
     buttons=[form.add]
 
-    if form.validate_on_submit():
-        product = Products(ProductName=form.ProductName.data,CatalogNumber=form.CatalogNumber.data,Vendor=form.VendorID.data)
-        db.session.add(product)
-        db.session.commit()
+    if form.validate_on_submit():        
+        dataman.add_product(form.data)
 
-    return render_template("AddProducts.html",form=form,fields=fields,buttons=buttons)
+    return render_template("formTemplate.html",form=form,fields=fields,buttons=buttons)
 
 @app.route('/AddVendors',methods=['GET','POST'])
 def addVendors():
@@ -70,19 +99,13 @@ def addVendors():
     buttons=[form.add]
 
     if form.validate_on_submit():
-        vendor = Vendors(VendorName=form.VendorName.data)
-        db.session.add(vendor)
-        db.session.commit()
+        return "Method not implemented"
 
-    return render_template("AddVendors.html",form=form,fields=fields,buttons=buttons)
+    return render_template("formTemplate.html",form=form,fields=fields,buttons=buttons)
 
-@app.route('/productList')
-def productList():
-    products = []
-    results = db.session.query(Products).all()
-    for result in results:
-        products.append(result.ProductID)
-    return render_template("productList.html", products=products)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+
+    app.run(debug=True, port=5001)
+
+    

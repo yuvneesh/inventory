@@ -1,0 +1,58 @@
+{% extends 'formTemplate.html' %}
+
+{% block form %}
+<form method="POST" action="">
+    {{ form.hidden_tag()}}
+    <fieldset class="form-group">
+        <legend class="border-bottom">{{ form.name }}</legend>
+
+        {% for field in fields %}
+        <div class="form-group">
+
+            {% if field.name == 'ProductName'%}
+                {{ field.label(class="form-control-label") }}
+                {{ field(class="select2 form-control", multiple="multiple", id="ProductName") }}
+
+            {% elif field.name == 'SerialNumber'%}
+                {{ field.label(class="form-control-label") }}
+                {{ field(class="select2 form-control", multiple="multiple", id="SerialNumber") }}
+            {% else %}
+
+                {{ field.label(class="form-control-label")}}
+                {{ field(class="form-control form-control-lg")}}
+            {% endif %}
+        </div>    
+        {% endfor %}
+
+    </fieldset>
+
+    <div class="form-group d-flex justify-content-between">
+    {% for button in buttons %}
+            {{ button(class="btn btn-primary") }}
+    {% endfor %}
+    </div>
+{% endblock %}
+
+{% block additional_script %}
+    {{ super() }}
+    <script>
+        $('#ProductName').on('select2:unselect', function (e) {
+            document.getElementById('SerialNumber').innerHTML = '<option value=""></option>';
+        })
+
+        $('#ProductName').on('select2:select', function (e) {
+            var data = e.params.data.text;
+            console.log(data)
+            fetch('/get-item-numbers/' + data).then(function(response){
+                response.json().then(function(data){
+                    optionsHTML = '';
+                    for(let num of data.SerialNumber){
+                        optionsHTML += '<option value="' + num + '">' + num + '</option>'
+                        
+                        document.getElementById('SerialNumber').innerHTML = optionsHTML;
+                    }
+                })
+            })
+        });
+    </script>
+{% endblock %}

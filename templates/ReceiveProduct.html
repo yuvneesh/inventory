@@ -1,0 +1,44 @@
+{% extends 'formTemplate.html' %}
+
+{% block form %}
+<form method="POST" action="">
+    {{ form.hidden_tag()}}
+    <fieldset class="form-group">
+        <legend class="border-bottom">{{ form.name }}</legend>
+
+        {% for field in fields %}
+        <div class="form-group">
+
+            {% if field.name == 'ProductName'%}
+                {{ field.label(class="form-control-label") }}
+                {{ field(class="select2 form-control", multiple="multiple") }}
+
+            {% else %}
+                {{ field.label(class="form-control-label")}}
+                {{ field(class="form-control form-control-lg")}}
+            {% endif %}
+        </div>    
+        {% endfor %}
+
+    </fieldset>
+
+    <div class="form-group d-flex justify-content-between">
+    {% for button in buttons %}
+            {{ button(class="btn btn-primary") }}
+    {% endfor %}
+    </div>
+{% endblock %}
+
+{% block additional_script %}
+<script>
+
+    $(document).ready(function() {
+        $('.select2').select2({
+            maximumSelectionLength: 1,
+            allowClear: true,
+            selectOnClose: true
+        })
+    });
+
+</script>
+{% endblock %}

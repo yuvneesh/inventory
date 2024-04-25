@@ -1,7 +1,5 @@
-from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import ForeignKey
-
-db = SQLAlchemy()
+from inventory import db
 
 class TestMethods(db.Model):
     MethodID = db.Column(db.String, primary_key=True)
